@@ -42,7 +42,7 @@ If you use the files right now, your KDE applications will use the signature *Bl
 The ultimate goal is to build a fully featured KDE Global Theme. Here is what is planned:
 
 - [x] Base Color Scheme
-- [x] Sounds
+- [x] Sounds (Features official audio assets from Blue Archive. All rights reserved to Nexon Games and Yostar. Created out of love for the game as a 100% non-profit fan project.)
 - [ ] Plasma Theme (Panels, Widgets, Taskbar)
 - [ ] Window Decorations (Aurorae / Buttons)
 - [ ] Custom Application Style (Kvantum)
