@@ -1,0 +1,7 @@
+[Sound Theme]
+Name=Blue Archive Sounds
+Comment=Blue Archive system sounds
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo
