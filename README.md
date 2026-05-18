@@ -44,7 +44,7 @@ The ultimate goal is to build a fully featured KDE Global Theme. Here is what is
 - [x] Base Color Scheme
 - [x] Sounds (Features official audio assets from Blue Archive. All rights reserved to Nexon Games and Yostar. Created out of love for the game as a 100% non-profit fan project.)
 - [ ] Plasma Theme (Panels, Widgets, Taskbar)
-- [ ] Window Decorations (Aurorae / Buttons)
+- [x] Window Decorations (Aurorae / Buttons)
 - [ ] Custom Application Style (Kvantum)
 - [ ] Lock/Login Screen (~~SDDM Theme~~ - deleted in KDE Plasma 6.6)
 - [ ] Wallpapers
