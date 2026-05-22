@@ -46,6 +46,7 @@ The ultimate goal is to build a fully featured KDE Global Theme. Here is what is
 - [ ] Plasma Theme (Panels, Widgets, Taskbar)
 - [x] Window Decorations (Aurorae / Buttons)
 - [ ] Custom Application Style (Kvantum)
+- [x] Custom folder icon (Schale folder oficial icon. All rights reserved to Nexon Games and Yostar.)
 - [ ] Lock/Login Screen (~~SDDM Theme~~ - deleted in KDE Plasma 6.6)
 - [ ] Wallpapers
 
