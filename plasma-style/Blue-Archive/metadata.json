@@ -1,0 +1,17 @@
+
+{
+  "KPlugin": {
+    "Authors": [
+      {
+				"Name": "Krystian Sadowski",
+        "Email": "krystek.sadowski@gmail.com"
+      }
+    ],
+    "Category": "",
+    "Id": "Blue-Archive",
+    "License": "GPLv3",
+    "Name": "Blue Archive 什亭之匣",
+    "Version": "0.1.0"
+  },
+  "X-Plasma-API": "5.0"
+}

@@ -34,7 +34,7 @@ ForegroundVisited=127,140,141
 
 [Colors:Complementary]
 BackgroundAlternate=0,0,127
-BackgroundNormal=0,85,255
+BackgroundNormal=33,61,88
 DecorationFocus=30,146,255
 DecorationHover=61,174,230
 ForegroundActive=147,206,233
@@ -103,7 +103,7 @@ ForegroundPositive=39,174,96
 ForegroundVisited=127,140,141
 
 [General]
-ColorScheme=PlasmaOverdose
+ColorScheme=BlueArchive
 Name=Blue Archive 什亭之匣
 shadeSortColumn=true
 
