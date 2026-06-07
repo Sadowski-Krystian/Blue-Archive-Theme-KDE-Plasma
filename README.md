@@ -5,7 +5,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![LGPL 2.1 License][license-shield]][license-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -28,10 +28,16 @@
 </div>
 
 <!-- ABOUT THE PROJECT -->
+
+## License
+The source code, SVG files, and configuration files of this KDE Plasma theme are licensed under the LGPL 2.1 License.
+
+⚠️ ARTWORK EXCEPTION: The LGPL 2.1 license DOES NOT apply to the wallpaper image assets included in this repository. All rights to the character artwork and background images are reserved by their respective creators. See the [Copyright section](#copyright) for details.
+
 ## About The Project
 
-> ⚠️ **Status: Under Construction / Work in Progress**
-> This project is currently in its very early stages. 
+<!-- > ⚠️ **Status: Under Construction / Work in Progress**
+> This project is currently in its very early stages.  -->
 
 Currently, this repository only contains the **Color Scheme**. I've uploaded the colors primarily as a backup so I don't lose my exact hex codes and current progress while I continue working on the rest of the theme.
 
@@ -46,9 +52,12 @@ The ultimate goal is to build a fully featured KDE Global Theme. Here is what is
 - [x] Plasma Theme (Panels, Widgets, Taskbar)
 - [x] Window Decorations (Aurorae / Buttons)
 - [ ] ~~ Custom Application Style (Kvantum) ~~
-- [x] Custom folder icon (Schale folder oficial icon. All rights reserved to Nexon Games and Yostar.)
-- [ ] Lock/Login Screen (~~SDDM Theme~~ - deleted in KDE Plasma 6.6)
-- [ ] Wallpapers
+- [x] Custom folder icon (Schale folder official icon. All rights reserved to Nexon Games and Yostar.)
+- [x] Lock/Login Screen wallpapers (~~SDDM Theme~~ - deleted in KDE Plasma 6.6)
+- [x] Desktop wallpaper
+
+
+
 
 ### 🛠️ How to use the colors (Temporary)
 
@@ -65,6 +74,20 @@ Then, apply it via **System Settings -> Colors**.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Copyright
+
+Please note that the images included are not mine. Permission has been granted by the original artists exclusively for use within this KDE theme. Reproduction, republishing, and use for AI training are strictly prohibited!
+
+#### Wallpaper Desktop
+- Artwork by: [IV][COPYRIGHT-DESKTOP-ARTIST]
+- [Original Source][COPYRIGHT-DESKTOP-SOURCE]
+
+#### Wallpaper Lock/Login
+- Artwork by: [HJ_penguin][COPYRIGHT-LOCK-ARTIST]
+- [Original Source][COPYRIGHT-LOCK-SOURCE]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma.svg?style=for-the-badge
 [contributors-url]: https://github.com/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma/graphs/contributors
@@ -74,9 +97,16 @@ Then, apply it via **System Settings -> Colors**.
 [stars-url]: https://github.com/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma/stargazers
 [issues-shield]: https://img.shields.io/github/issues/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma.svg?style=for-the-badge
 [issues-url]: https://github.com/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma/issues
-[license-shield]: https://img.shields.io/github/license/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/badge/License-LGPL_2.1_(With_Exceptions)-blue.svg?style=for-the-badge
 [license-url]: https://github.com/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma/blob/master/LICENSE.txt
 
 <!-- Badges dla technologii -->
 [KDE-shield]: https://img.shields.io/badge/KDE-%231D99F3.svg?style=for-the-badge&logo=kde&logoColor=white
 [KDE-url]: https://kde.org/
+
+<!-- Copyrights -->
+
+[COPYRIGHT-LOCK-ARTIST]: https://www.pixiv.net/en/users/16710545
+[COPYRIGHT-LOCK-SOURCE]: https://www.pixiv.net/en/artworks/115226775
+[COPYRIGHT-DESKTOP-ARTIST]: https://www.pixiv.net/en/users/72896190
+[COPYRIGHT-DESKTOP-SOURCE]: https://www.pixiv.net/en/artworks/111576669
