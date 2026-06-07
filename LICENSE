@@ -1,3 +1,20 @@
+=======================================================================
+REPOSITORY LICENSE EXCEPTION NOTICE
+=======================================================================
+This repository contains a mix of open-source code and proprietary/copyrighted assets.
+
+1. THE CODE & UI FILES:
+The KDE Plasma theme code, configuration files, and modified UI SVG graphics created by the repository owner are licensed under the GNU Lesser General Public License v2.1 (LGPL-2.1) found below.
+
+2. THE ARTWORK (EXCLUDED FROM LGPL):
+The wallpaper assets located in the wallpaper directories are NOT covered by this license. They are the property of their respective original artists. Permission was granted exclusively for use within this theme. Reproduction, republishing, and use for AI training are STRICTLY PROHIBITED.
+
+3. THE OFFICIAL GAME ASSETS (EXCLUDED FROM LGPL):
+Audio files and official game icons (e.g., the Schale logo) are the intellectual property of Nexon Games and Yostar. They are included purely as a non-profit fan tribute. All rights to these assets belong to their respective owners.
+
+=======================================================================
+BEGIN GNU LGPL 2.1 TEXT
+=======================================================================
                   GNU LESSER GENERAL PUBLIC LICENSE
                        Version 2.1, February 1999
 
