@@ -1,0 +1,14 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "Krystian Sadowski",
+        "Email": "krystek.sadowski@gmail.com"
+      }
+    ],
+    "Id": "Blue-Archive-Theme-Lock",
+    "License": "Custom",
+    "Name": "Blue Archive Shittim Chest Lock",
+    "Version": "1.0"
+  }
+}

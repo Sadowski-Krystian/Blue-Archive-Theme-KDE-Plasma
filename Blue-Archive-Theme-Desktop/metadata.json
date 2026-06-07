@@ -1,0 +1,14 @@
+{
+  "KPlugin": {
+    "Authors": [
+      {
+        "Name": "Krystian Sadowski",
+        "Email": "krystek.sadowski@gmail.com"
+      }
+    ],
+    "Id": "Blue-Archive-Theme-Desktop",
+    "License": "Custom",
+    "Name": "Blue Archive Shittim Chest Desktop",
+    "Version": "1.0"
+  }
+}
