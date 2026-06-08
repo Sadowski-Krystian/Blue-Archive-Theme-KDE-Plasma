@@ -15,5 +15,13 @@
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;",
     "X-Plasma-APIVersion": "2",
-    "X-Plasma-MainScript": "default"
+    "X-Plasma-MainScript": "default",
+    "X-KPackage-Dependencies": [
+    "kns://plasma-themes.knsrc/api.kde-look.org/2362104",
+    "kns://aurorae.knsrc/api.kde-look.org/2362101",
+    "kns://wallpaper.knsrc/api.kde-look.org/2362110",
+    "kns://colorschemes.knsrc/api.kde-look.org/2362102",
+    "kns://icons.knsrc/api.kde-look.org/2362097",
+    "kns://ksplash.knsrc/api.kde-look.org/2298617"
+  ]
 }
