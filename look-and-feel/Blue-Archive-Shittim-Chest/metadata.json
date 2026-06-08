@@ -3,15 +3,15 @@
     "KPlugin": {
         "Authors": [
             {
-                "Email": "",
-                "Name": ""
+                "Email": "krystek.sadowski@gmail.com",
+                "Name": "Krystian Sadowski"
             }
         ],
         "Description": "",
         "Id": "Blue-Archive-Shittim-Chest",
-        "License": "",
+        "License": "LGPL 2.1",
         "Name": "Blue-Archive-Shittim-Chest",
-        "Website": ""
+        "Website": "https://github.com/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma"
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;",
     "X-Plasma-APIVersion": "2",

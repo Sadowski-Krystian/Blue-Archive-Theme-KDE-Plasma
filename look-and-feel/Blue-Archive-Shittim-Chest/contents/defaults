@@ -1,6 +1,3 @@
-[kcminputrc][Mouse]
-cursorTheme=Takanashi-Hoshino-Swimsuit
-
 [kdeglobals][General]
 ColorScheme=BlueArchive
 
@@ -22,3 +19,9 @@ theme=__aurorae__svg__Blue-Archive
 
 [plasmarc][Theme]
 name=Blue-Archive
+
+[Wallpaper]
+Image=Blue-Archive-Theme-Desktop
+
+[KSplash]
+Theme=arona-splash-theme
