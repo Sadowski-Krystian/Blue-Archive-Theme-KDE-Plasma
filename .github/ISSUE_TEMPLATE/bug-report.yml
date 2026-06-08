@@ -1,0 +1,78 @@
+name: Bug Report
+description: File a structured report to help improve the theme!
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug! Please fill out this form as accurately as possible so we can get it fixed.
+
+  - type: dropdown
+    id: affected-component
+    attributes:
+      label: Affected Component
+      description: Which part of the Blue Archive Shittim Chest ecosystem is having issues?
+      multiple: true
+      options:
+        - "Global Theme (look-and-feel)"
+        - "Plasma Style (Widgets / Desktop Theme)"
+        - "Icon Theme (Blue-Archive-Schale)"
+        - "Sound Theme (Audio assets)"
+        - "Aurorae Window Decorations (Borders / Buttons)"
+        - "Color Scheme (BlueArchive)"
+        - "SDDM / Lock Screen Wallpaper"
+        - "Desktop Wallpaper"
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Description of the Bug
+      description: Provide a clear and concise description of what the problem is and what you expected to happen.
+      placeholder: "e.g., When I apply the theme, the minimize/maximize window buttons disappear..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can we make this bug happen again?
+      placeholder: |
+        1. Go to 'KDE System Settings'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: dropdown
+    id: plasma-version
+    attributes:
+      label: Plasma Version
+      description: Which generation of KDE Plasma are you currently running?
+      options:
+        - "KDE Plasma 6 (Modern / Qt6)"
+        - "KDE Plasma 5 (Legacy / Qt5)"
+        - "Other / Not Sure"
+    validations:
+      required: true
+
+  - type: input
+    id: distro-info
+    attributes:
+      label: Linux Distribution & OS Details
+      description: What Linux distro are you using? (e.g., Bazzite, Fedora, Arch, OpenSUSE)
+      placeholder: "e.g., Bazzite (Fedora 40 base)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs-screenshots
+    attributes:
+      label: Screenshots or Logs
+      description: Drag and drop screenshots showing the visual bug, or paste terminal/journalctl output here.
+      placeholder: "Attach images or paste error logs here..."
+    validations:
+      required: false
