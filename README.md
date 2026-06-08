@@ -27,6 +27,12 @@
   </p>
 </div>
 
+<div align="center">
+  <a href="https://count.getloli.com/">
+    <img src="https://count.getloli.com/@Sadowski-Krystian-Blue-Archive?name=Sadowski-Krystian-Blue-Archive&theme=original-new&padding=7&offset=0&align=center&scale=1&pixelated=1&darkmode=0" height="100">
+  </a>
+</div>
+
 <!-- ABOUT THE PROJECT -->
 
 ## License
@@ -51,7 +57,7 @@ The ultimate goal is to build a fully featured KDE Global Theme. Here is what is
 - [x] Sounds (Features official audio assets from Blue Archive. All rights reserved to Nexon Games and Yostar. Created out of love for the game as a 100% non-profit fan project.)
 - [x] Plasma Theme (Panels, Widgets, Taskbar)
 - [x] Window Decorations (Aurorae / Buttons)
-- [ ] ~~ Custom Application Style (Kvantum) ~~
+- [ ] ~~Custom Application Style (Kvantum)~~
 - [x] Custom folder icon (Schale folder official icon. All rights reserved to Nexon Games and Yostar.)
 - [x] Lock/Login Screen wallpapers (~~SDDM Theme~~ - deleted in KDE Plasma 6.6)
 - [x] Desktop wallpaper
@@ -59,12 +65,12 @@ The ultimate goal is to build a fully featured KDE Global Theme. Here is what is
 
 
 
-### 🛠️ How to use the colors (Temporary)
+### 🚀 Quick Install (One-Liner)
+To install the entire theme automatically, simply open your terminal and paste this command:
 
-If you want to test the colors right now, you can place the `.colors` file into your local KDE color schemes directory:  
-`~/.local/share/color-schemes/`
-
-Then, apply it via **System Settings -> Colors**.
+```bash
+curl -sSL https://raw.githubusercontent.com/Sadowski-Krystian/Blue-Archive-Theme-KDE-Plasma/refs/heads/main/install.sh | bash
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
