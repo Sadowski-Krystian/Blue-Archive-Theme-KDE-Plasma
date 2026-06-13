@@ -11,7 +11,6 @@
    version="1.1"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
@@ -27,11 +26,11 @@
      inkscape:current-layer="svg2"
      inkscape:showpageshadow="2"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="2.0004578"
-     inkscape:cx="162.21287"
-     inkscape:cy="-19.74548"
+     inkscape:zoom="8.0018311"
+     inkscape:cx="-271.81279"
+     inkscape:cy="67.921954"
      inkscape:window-width="2560"
-     inkscape:window-height="1368"
+     inkscape:window-height="1366"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1">
@@ -46,22 +45,6 @@
   </sodipodi:namedview>
   <defs
      id="defs15">
-    <linearGradient
-       id="linearGradient1"
-       inkscape:collect="always">
-      <stop
-         style="stop-color:#c9edfd;stop-opacity:1;"
-         offset="0"
-         id="stop1" />
-      <stop
-         style="stop-color:#f4fafd;stop-opacity:1;"
-         offset="0.5"
-         id="stop3" />
-      <stop
-         style="stop-color:#80dcf8;stop-opacity:1;"
-         offset="1"
-         id="stop2" />
-    </linearGradient>
     <style
        type="text/css"
        id="current-color-scheme">
@@ -126,15 +109,6 @@
          offset="1"
          style="stop-color:#000;stop-opacity:0" />
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1"
-       id="linearGradient2"
-       x1="13.879229"
-       y1="-7.1755924"
-       x2="21.461256"
-       y2="-7.1755924"
-       gradientUnits="userSpaceOnUse" />
   </defs>
   <rect
      id="hint-tile-center"
@@ -262,12 +236,12 @@
      transform="matrix(7.7688979,0,0,5.689584,146.6522,-90.10751)"
      inkscape:label="center">
     <rect
-       style="fill:url(#linearGradient2);fill-opacity:1;stroke:none;stroke-width:0.320999;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#f4fafd;fill-opacity:1;stroke:none;stroke-width:0.320999;stroke-dasharray:none;stroke-opacity:1"
        id="rect64"
        width="7.582027"
        height="22.057518"
-       x="13.879229"
-       y="-18.204351" />
+       x="12.463651"
+       y="28.53705" />
   </g>
   <g
      id="right"
