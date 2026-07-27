@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Blue Archive Boot
+Description=Blue Archive Steam Boot Splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/bluearchive
+ScriptFile=/usr/share/plymouth/themes/bluearchive/bluearchive.script
