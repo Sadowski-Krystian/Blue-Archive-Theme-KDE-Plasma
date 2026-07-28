@@ -1,18 +1,27 @@
+// ==========================================
+// GLOBAL SETTINGS
+// ==========================================
 Window.SetBackgroundTopColor (0.0, 0.0, 0.0);
 Window.SetBackgroundBottomColor (0.0, 0.0, 0.0);
 
 is_password_requested = 0;
+animation_started = 0;
 
-frame_count = 270;
+// ==========================================
+// Loading frames
+// ==========================================
+total_frame_count = 137;
+loop_start_frame = 74;
 
-for (i = 1; i <= frame_count; i++) {
-    image[i] = Image("frame_" + i + ".png");
+for (i = 1; i <= total_frame_count; i++) {
+    image[i] = Image("intro/frame_" + i + ".png");
 }
 
 sprite = Sprite();
-sprite.SetX(Window.GetWidth() / 2 - image[1].GetWidth() / 2);
-sprite.SetY(Window.GetHeight() / 2 - image[1].GetHeight() / 2);
 
+// ==========================================
+// LUKS SETTINGS
+// ==========================================
 prompt_sprite = Sprite();
 bullet_sprite = Sprite();
 
@@ -30,10 +39,8 @@ fun display_password_callback (prompt, bullets) {
     global.prompt_image = Image.Text(prompt, 1.0, 1.0, 1.0);
     global.bullet_image = Image.Text(bullets, 1.0, 1.0, 1.0);
 
-    if (progress == frame_count) {
-        prompt_sprite.SetImage(global.prompt_image);
-        bullet_sprite.SetImage(global.bullet_image);
-    }
+    prompt_sprite.SetImage(global.prompt_image);
+    bullet_sprite.SetImage(global.bullet_image);
 }
 Plymouth.SetDisplayPasswordFunction(display_password_callback);
 
@@ -41,28 +48,35 @@ fun display_normal_callback () {
     is_password_requested = 0;
     prompt_sprite.SetImage(NULL);
     bullet_sprite.SetImage(NULL);
+
+    animation_started = 1;
 }
 Plymouth.SetDisplayNormalFunction(display_normal_callback);
 
-
+// ==========================================
+// ANIMATION LOOP
+// ==========================================
 progress = 1;
 tick_counter = 0;
 
 fun refresh_callback () {
-    sprite.SetImage(image[progress]);
+    // Animacja "stoi w miejscu", dopóki zmienna animation_started wynosi 0
+    if (animation_started == 1) {
+        tick_counter++;
 
-    tick_counter++;
+        sprite.SetX(Window.GetWidth() / 2 - image[progress].GetWidth() / 2);
+        sprite.SetY(Window.GetHeight() / 2 - image[progress].GetHeight() / 2);
+        sprite.SetImage(image[progress]);
 
-    if (tick_counter >= 2) {
-        if (progress < frame_count) {
+        if (tick_counter >= 4) {
             progress++;
-        }
-        tick_counter = 0;
-    }
+            tick_counter = 0;
 
-    if (progress == frame_count && is_password_requested == 1) {
-        prompt_sprite.SetImage(global.prompt_image);
-        bullet_sprite.SetImage(global.bullet_image);
+            // Zapętlenie końcówki, gdyby system ładował się dłużej
+            if (progress > total_frame_count) {
+                progress = loop_start_frame;
+            }
+        }
     }
 }
 Plymouth.SetRefreshFunction (refresh_callback);
