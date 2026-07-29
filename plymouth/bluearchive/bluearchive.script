@@ -17,6 +17,11 @@ for (i = 1; i <= total_frame_count; i++) {
     image[i] = Image("intro/frame_" + i + ".png");
 }
 
+luks_frame_count = 75;
+for (i = 1; i <= luks_frame_count; i++) {
+    luks_image[i] = Image("luks/luks_" + i + ".png");
+}
+
 sprite = Sprite();
 
 // ==========================================
@@ -57,13 +62,26 @@ Plymouth.SetDisplayNormalFunction(display_normal_callback);
 // ANIMATION LOOP
 // ==========================================
 progress = 1;
+luks_progress = 1;
 tick_counter = 0;
 
 fun refresh_callback () {
-    // Animacja "stoi w miejscu", dopóki zmienna animation_started wynosi 0
-    if (animation_started == 1) {
-        tick_counter++;
+    tick_counter++;
 
+    if (animation_started == 0) {
+        sprite.SetX(Window.GetWidth() / 2 - luks_image[luks_progress].GetWidth() / 2);
+        sprite.SetY(Window.GetHeight() / 2 - luks_image[luks_progress].GetHeight() / 2);
+        sprite.SetImage(luks_image[luks_progress]);
+
+        if (tick_counter >= 4) {
+            luks_progress++;
+            tick_counter = 0;
+
+            if (luks_progress > luks_frame_count) {
+                luks_progress = 1;
+            }
+        }
+    } else {
         sprite.SetX(Window.GetWidth() / 2 - image[progress].GetWidth() / 2);
         sprite.SetY(Window.GetHeight() / 2 - image[progress].GetHeight() / 2);
         sprite.SetImage(image[progress]);
@@ -72,7 +90,6 @@ fun refresh_callback () {
             progress++;
             tick_counter = 0;
 
-            // Zapętlenie końcówki, gdyby system ładował się dłużej
             if (progress > total_frame_count) {
                 progress = loop_start_frame;
             }
