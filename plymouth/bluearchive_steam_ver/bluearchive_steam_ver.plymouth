@@ -4,5 +4,5 @@ Description=Blue Archive Arona Steam boot screen make for PC
 ModuleName=script
 
 [script]
-ImageDir=/usr/share/plymouth/themes/bluearchive
-ScriptFile=/usr/share/plymouth/themes/bluearchive/bluearchive.script
+ImageDir=/usr/share/plymouth/themes/bluearchive_steam_ver
+ScriptFile=/usr/share/plymouth/themes/bluearchive_steam_ver/bluearchive_steam_ver.script
