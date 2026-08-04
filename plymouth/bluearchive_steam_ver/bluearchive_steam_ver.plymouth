@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Blue Archive (Steam Deck Version)
+Description=Blue Archive Arona Steam boot screen make for PC
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/bluearchive_steam_ver
+ScriptFile=/usr/share/plymouth/themes/bluearchive_steam_ver/bluearchive_steam_ver.script

@@ -1,0 +1,253 @@
+// ==========================================
+// 1. GLOBAL SETTINGS & EARLY OVERRIDE
+// ==========================================
+Window.SetBackgroundTopColor (0.0, 0.0, 0.0);
+Window.SetBackgroundBottomColor (0.0, 0.0, 0.0);
+
+is_password_requested = 0;
+password_success = 0;
+is_verifying = 0;
+verify_ticks = 0;
+
+total_frame_count = 137;
+loop_start_frame = 74;
+
+is_updating = 0;
+global_update_progress = 0;
+play_mode = 0;
+progress = 1;
+
+if (Plymouth.GetMode() == "updates" || Plymouth.GetMode() == "system-upgrade") {
+    is_updating = 1;
+    play_mode = 3;
+    progress = loop_start_frame;
+}
+
+// ==========================================
+// 2. LOADING FRAMES
+// ==========================================
+for (i = 1; i <= total_frame_count; i++) {
+    image[i] = Image("intro/frame_" + i + ".png");
+}
+
+sprite = Sprite();
+
+// ==========================================
+// 3. UI - BATERRY AND CELLS
+// ==========================================
+anchor_x = Window.GetWidth() * 0.20;
+anchor_y = Window.GetHeight() * 0.25;
+
+update_anchor_x = Window.GetWidth() / 2;
+update_anchor_y = Window.GetHeight() * 0.85;
+
+battery_bg_image = Image("battery/battery_background.png");
+battery_bg_sprite = Sprite();
+battery_bg_sprite.SetImage(battery_bg_image);
+battery_bg_sprite.SetX(anchor_x - (battery_bg_image.GetWidth() / 2));
+battery_bg_sprite.SetY(anchor_y);
+battery_bg_sprite.SetZ(90);
+battery_bg_sprite.SetOpacity(0.0);
+
+for (i = 1; i <= 32; i++) {
+    cell_image[i] = Image("battery/battery_ogniwo" + i + ".png");
+    cell_sprite[i] = Sprite();
+    cell_sprite[i].SetZ(95);
+    cell_sprite[i].SetOpacity(0.0);
+}
+
+prompt_sprite = Sprite();
+bullet_sprite = Sprite();
+prompt_offset_y = 60;
+
+// ==========================================
+// EVENT 1: LUKS
+// ==========================================
+fun display_password_callback (prompt, bullets) {
+    is_password_requested = 1;
+    is_verifying = 0;
+    verify_ticks = 0;
+    password_success = 0;
+
+    battery_bg_sprite.SetOpacity(1.0);
+    prompt_sprite.SetOpacity(1.0);
+    bullet_sprite.SetOpacity(1.0);
+
+    global.prompt_image = Image("prompts/prompt_password.png");
+    prompt_sprite.SetImage(global.prompt_image);
+    prompt_sprite.SetX(anchor_x - (global.prompt_image.GetWidth() / 2));
+    prompt_sprite.SetY(anchor_y - prompt_offset_y);
+    prompt_sprite.SetZ(100);
+
+    char_count = bullets * 1;
+    render_cells = char_count;
+    if (render_cells > 32) {
+        render_cells = 32;
+    }
+
+    padding_x = 12;
+    padding_y = 12;
+    current_cell_x = battery_bg_sprite.GetX() + padding_x;
+    start_cell_y = battery_bg_sprite.GetY() + padding_y;
+
+    for (i = 1; i <= 32; i++) {
+        cell_sprite[i].SetImage(cell_image[i]);
+
+        if (i <= render_cells) {
+            cell_sprite[i].SetOpacity(1.0);
+            cell_sprite[i].SetX(current_cell_x);
+            cell_sprite[i].SetY(start_cell_y);
+            current_cell_x = current_cell_x + cell_image[i].GetWidth() + 2;
+        } else {
+            cell_sprite[i].SetOpacity(0.0);
+        }
+    }
+
+    counter_text = char_count + "";
+    global.bullet_image = Image.Text(counter_text, 0.2, 0.7, 1.0, 1.0, "Monospace 14");
+    bullet_sprite.SetImage(global.bullet_image);
+    bullet_sprite.SetX(battery_bg_sprite.GetX() + (battery_bg_image.GetWidth() / 2) - (global.bullet_image.GetWidth() / 2));
+    bullet_sprite.SetY(battery_bg_sprite.GetY() + (battery_bg_image.GetHeight() / 2) - (global.bullet_image.GetHeight() / 2));
+    bullet_sprite.SetZ(110);
+}
+Plymouth.SetDisplayPasswordFunction(display_password_callback);
+
+// ==========================================
+// EVENT 2: DefaultStart
+// ==========================================
+fun display_normal_callback () {
+    if (is_password_requested == 1 && password_success == 0) {
+        is_verifying = 1;
+        verify_ticks = 0;
+
+        global.prompt_image = Image("prompts/prompt_verify.png");
+        prompt_sprite.SetImage(global.prompt_image);
+        prompt_sprite.SetX(anchor_x - (global.prompt_image.GetWidth() / 2));
+        prompt_sprite.SetY(anchor_y - prompt_offset_y);
+    } else {
+        prompt_sprite.SetOpacity(0.0);
+        battery_bg_sprite.SetOpacity(0.0);
+        bullet_sprite.SetOpacity(0.0);
+        for (i = 1; i <= 32; i++) {
+            cell_sprite[i].SetOpacity(0.0);
+        }
+    }
+}
+Plymouth.SetDisplayNormalFunction(display_normal_callback);
+
+// ==========================================
+// EVENT 3: OFFLINE UPDATE
+// ==========================================
+fun update_status_callback (status) {
+    if (Plymouth.GetMode() == "updates" || Plymouth.GetMode() == "system-upgrade") {
+        is_updating = 1;
+    }
+}
+Plymouth.SetUpdateStatusFunction(update_status_callback);
+
+fun boot_progress_callback (duration, boot_progress) {
+    if (is_updating == 1) {
+        global_update_progress = boot_progress * 100;
+    }
+}
+Plymouth.SetBootProgressFunction(boot_progress_callback);
+
+// ==========================================
+// 4. ANIMATION ENGINE
+// ==========================================
+tick_counter = 0;
+
+fun refresh_callback () {
+    tick_counter++;
+
+    if (is_verifying == 1) {
+        verify_ticks++;
+        if (verify_ticks > 125) {
+            is_verifying = 0;
+            password_success = 1;
+
+            prompt_sprite.SetOpacity(0.0);
+            battery_bg_sprite.SetOpacity(0.0);
+            bullet_sprite.SetOpacity(0.0);
+            for (i = 1; i <= 32; i++) {
+                cell_sprite[i].SetOpacity(0.0);
+            }
+        }
+    }
+
+    sprite.SetX(Window.GetWidth() / 2 - image[progress].GetWidth() / 2);
+    sprite.SetY(Window.GetHeight() / 2 - image[progress].GetHeight() / 2);
+    sprite.SetImage(image[progress]);
+
+    if (is_updating == 1) {
+        battery_bg_sprite.SetOpacity(1.0);
+        prompt_sprite.SetOpacity(1.0);
+        bullet_sprite.SetOpacity(1.0);
+
+        global.prompt_image = Image("prompts/prompt_update.png");
+        prompt_sprite.SetImage(global.prompt_image);
+        prompt_sprite.SetX(update_anchor_x - (global.prompt_image.GetWidth() / 2));
+        prompt_sprite.SetY(Window.GetHeight() * 0.08);
+        prompt_sprite.SetZ(100);
+
+        battery_bg_sprite.SetX(update_anchor_x - (battery_bg_image.GetWidth() / 2));
+        battery_bg_sprite.SetY(update_anchor_y);
+
+        progress_text = Math.Int(global_update_progress) + "%";
+        global.update_percent_image = Image.Text(progress_text, 0.2, 0.7, 1.0, 1.0, "Monospace 14");
+        bullet_sprite.SetImage(global.update_percent_image);
+
+        bullet_sprite.SetX(battery_bg_sprite.GetX() + (battery_bg_image.GetWidth() / 2) - (global.update_percent_image.GetWidth() / 2));
+        bullet_sprite.SetY(battery_bg_sprite.GetY() + (battery_bg_image.GetHeight() / 2) - (global.update_percent_image.GetHeight() / 2));
+        bullet_sprite.SetZ(110);
+
+        render_cells = Math.Int((global_update_progress / 100.0) * 32);
+
+        if (render_cells > 32) {
+            render_cells = 32;
+        } else if (render_cells < 0) {
+            render_cells = 0;
+        }
+
+        padding_x = 12;
+        padding_y = 12;
+        current_cell_x = battery_bg_sprite.GetX() + padding_x;
+        start_cell_y = battery_bg_sprite.GetY() + padding_y;
+
+        for (i = 1; i <= 32; i++) {
+            cell_sprite[i].SetImage(cell_image[i]);
+            if (i <= render_cells) {
+                cell_sprite[i].SetOpacity(1.0);
+                cell_sprite[i].SetX(current_cell_x);
+                cell_sprite[i].SetY(start_cell_y);
+                current_cell_x = current_cell_x + cell_image[i].GetWidth() + 2;
+            } else {
+                cell_sprite[i].SetOpacity(0.0);
+            }
+        }
+    }
+
+    if (tick_counter >= 4) {
+        tick_counter = 0;
+
+        if (play_mode == 0) {
+            if (progress < 30) {
+                progress++;
+            } else if (progress == 30) {
+                if (is_password_requested == 1 && password_success == 0) {
+                    //waiting for luks
+                } else {
+                    play_mode = 3;
+                    progress = 31;
+                }
+            }
+        }
+        else if (play_mode == 3) {
+            progress++;
+            if (progress > total_frame_count) {
+                progress = loop_start_frame;
+            }
+        }
+    }
+}
+Plymouth.SetRefreshFunction (refresh_callback);

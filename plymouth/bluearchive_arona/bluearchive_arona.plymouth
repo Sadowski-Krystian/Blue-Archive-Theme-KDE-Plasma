@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Blue Archive
+Description=Blue Archive Arona boot screen
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/bluearchive_arona
+ScriptFile=/usr/share/plymouth/themes/bluearchive_arona/bluearchive_arona.script
