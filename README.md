@@ -69,6 +69,40 @@ curl -sSL https://raw.githubusercontent.com/Sadowski-Krystian/Blue-Archive-Theme
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### 🐧 Manual Plymouth Theme Installation
+
+This repository includes two custom Plymouth boot animations:
+* **`bluearchive_steam_ver`** - Is using steam deck boot animation from points shop
+* **`bluearchive_arona`** - A lightweight, continuous looping animation with Arona.
+
+Choose your preferred version and follow these steps in your terminal:
+
+**Step 1: Copy the theme to your system's Plymouth directory**
+*(Replace `<theme_name>` with either `bluearchive_steam_ver` or `bluearchive_arona`)*.
+```bash
+sudo cp -r plymouth/<theme_name> /usr/share/plymouth/themes/
+```
+> **Note:**  Ensure the you are inside the cloned repository.
+
+**Step 2: Set the theme as default and rebuild initramfs**
+
+*For Fedora / Bazzite / RHEL:*
+```bash
+sudo plymouth-set-default-theme -R <theme_name>
+```
+> *(The -R flag automatically rebuilds the initramfs via Dracut).*
+
+*For Ubuntu / Debian / Linux Mint:*
+
+```bash
+sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/<theme_name>/<theme_name>.plymouth 100
+sudo update-alternatives --config default.plymouth
+sudo update-initramfs -u
+```
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Built With
 
 * [![KDE][KDE-shield]][KDE-url]
