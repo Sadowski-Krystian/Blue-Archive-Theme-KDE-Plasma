@@ -56,6 +56,7 @@ The ultimate goal is to build a fully featured KDE Global Theme. Here is what is
 - [x] Desktop wallpaper
 - [x] Splash Screen - Is provided in theme config by [this repository][ARONA-SPLASH] 
 - [x] Plymouth (boot) Screen
+- [x] Cursor - Is provided by [BlueArchive-Cursors](https://github.com/makipom/BlueArchive-Cursors) created by makipom, licensed under the MIT License. 
 
 
 ### 🚀 Quick Install (One-Liner)
