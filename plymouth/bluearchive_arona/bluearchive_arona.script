@@ -10,7 +10,11 @@ total_frame_count = 75;
 progress = 1;
 
 is_updating = 0;
-global_update_progress = 0;
+
+scanner_pos = 1;
+scanner_dir = 1;
+scanner_width = 6;
+scanner_tick = 0;
 
 if (Plymouth.GetMode() == "updates" || Plymouth.GetMode() == "system-upgrade") {
     is_updating = 1;
@@ -123,9 +127,6 @@ fun update_status_callback (status) {
 Plymouth.SetUpdateStatusFunction(update_status_callback);
 
 fun boot_progress_callback (duration, boot_progress) {
-    if (is_updating == 1) {
-        global_update_progress = boot_progress * 100;
-    }
 }
 Plymouth.SetBootProgressFunction(boot_progress_callback);
 
@@ -144,7 +145,7 @@ fun refresh_callback () {
     if (is_updating == 1) {
         battery_bg_sprite.SetOpacity(1.0);
         prompt_sprite.SetOpacity(1.0);
-        bullet_sprite.SetOpacity(1.0);
+        bullet_sprite.SetOpacity(0.0);
 
         global.prompt_image = Image("prompts/prompt_update.png");
         prompt_sprite.SetImage(global.prompt_image);
@@ -155,20 +156,18 @@ fun refresh_callback () {
         battery_bg_sprite.SetX(anchor_x - (battery_bg_image.GetWidth() / 2));
         battery_bg_sprite.SetY(anchor_y);
 
-        progress_text = Math.Int(global_update_progress) + "%";
-        global.update_percent_image = Image.Text(progress_text, 0.2, 0.7, 1.0, 1.0, "Monospace 14");
-        bullet_sprite.SetImage(global.update_percent_image);
+        scanner_tick++;
+        if (scanner_tick >= 2) {
+            scanner_tick = 0;
+            scanner_pos = scanner_pos + scanner_dir;
 
-        bullet_sprite.SetX(battery_bg_sprite.GetX() + (battery_bg_image.GetWidth() / 2) - (global.update_percent_image.GetWidth() / 2));
-        bullet_sprite.SetY(battery_bg_sprite.GetY() + (battery_bg_image.GetHeight() / 2) - (global.update_percent_image.GetHeight() / 2));
-        bullet_sprite.SetZ(110);
-
-        render_cells = Math.Int((global_update_progress / 100.0) * 32);
-
-        if (render_cells > 32) {
-            render_cells = 32;
-        } else if (render_cells < 0) {
-            render_cells = 0;
+            if (scanner_pos > (32 - scanner_width + 1)) {
+                scanner_dir = -1;
+                scanner_pos = 32 - scanner_width;
+            } else if (scanner_pos < 1) {
+                scanner_dir = 1;
+                scanner_pos = 2;
+            }
         }
 
         padding_x = 12;
@@ -178,17 +177,18 @@ fun refresh_callback () {
 
         for (i = 1; i <= 32; i++) {
             cell_sprite[i].SetImage(cell_image[i]);
-            if (i <= render_cells) {
+
+            if (i >= scanner_pos && i < (scanner_pos + scanner_width)) {
                 cell_sprite[i].SetOpacity(1.0);
-                cell_sprite[i].SetX(current_cell_x);
-                cell_sprite[i].SetY(start_cell_y);
-                current_cell_x = current_cell_x + cell_image[i].GetWidth() + 2;
             } else {
                 cell_sprite[i].SetOpacity(0.0);
             }
+
+            cell_sprite[i].SetX(current_cell_x);
+            cell_sprite[i].SetY(start_cell_y);
+            current_cell_x = current_cell_x + cell_image[i].GetWidth() + 2;
         }
     }
-
 
     if (tick_counter >= 4) {
         tick_counter = 0;
