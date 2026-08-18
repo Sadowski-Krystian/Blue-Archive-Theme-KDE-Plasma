@@ -16,7 +16,6 @@ is_updating = 0;
 play_mode = 0;
 progress = 1;
 
-// Scanner variables for offline update
 scanner_pos = 1;
 scanner_dir = 1;
 scanner_width = 6;
@@ -24,6 +23,9 @@ scanner_tick = 0;
 
 if (Plymouth.GetMode() == "updates" || Plymouth.GetMode() == "system-upgrade") {
     is_updating = 1;
+    play_mode = 3;
+    progress = loop_start_frame;
+} else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
     play_mode = 3;
     progress = loop_start_frame;
 }
@@ -150,9 +152,9 @@ fun update_status_callback (status) {
 }
 Plymouth.SetUpdateStatusFunction(update_status_callback);
 
-// Kept empty so it doesn't interfere with the scanner
+
 fun boot_progress_callback (duration, boot_progress) {
-    // No action needed
+
 }
 Plymouth.SetBootProgressFunction(boot_progress_callback);
 
@@ -186,18 +188,17 @@ fun refresh_callback () {
     if (is_updating == 1) {
         battery_bg_sprite.SetOpacity(1.0);
         prompt_sprite.SetOpacity(1.0);
-        bullet_sprite.SetOpacity(0.0); // Hide bullet text entirely
+        bullet_sprite.SetOpacity(0.0);
 
         global.prompt_image = Image("prompts/prompt_update.png");
         prompt_sprite.SetImage(global.prompt_image);
         prompt_sprite.SetX(update_anchor_x - (global.prompt_image.GetWidth() / 2));
-        prompt_sprite.SetY(Window.GetHeight() * 0.08); // Keeping your custom Y position
+        prompt_sprite.SetY(Window.GetHeight() * 0.08);
         prompt_sprite.SetZ(100);
 
         battery_bg_sprite.SetX(update_anchor_x - (battery_bg_image.GetWidth() / 2));
         battery_bg_sprite.SetY(update_anchor_y);
 
-        // Scanner Logic
         scanner_tick++;
         if (scanner_tick >= 2) {
             scanner_tick = 0;
@@ -221,7 +222,6 @@ fun refresh_callback () {
         for (i = 1; i <= 32; i++) {
             cell_sprite[i].SetImage(cell_image[i]);
 
-            // Only show cells within the scanner block
             if (i >= scanner_pos && i < (scanner_pos + scanner_width)) {
                 cell_sprite[i].SetOpacity(1.0);
             } else {
