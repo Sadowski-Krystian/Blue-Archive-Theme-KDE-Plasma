@@ -24,7 +24,6 @@ options=(
   "Sounds"
   "Wallpapers"
 )
-# 1 = checked, 0 = unchecked. Default all to checked.
 selected=(1 1 1 1 1 1 1)
 cursor=0
 
@@ -47,38 +46,36 @@ print_menu() {
 }
 
 clear_menu() {
-    # Move cursor up and clear lines based on the number of options + 1 for the title
     for ((i=0; i<=${#options[@]}; i++)); do
         echo -ne "\033[1A\033[2K"
     done
 }
 
 # --- Interactive Menu Loop ---
-tput civis # Hide terminal cursor
+tput civis
 print_menu
 
 while true; do
-    # DODANO 'IFS=' ABY BASH NIE POŁYKAŁ SPACJI!
     IFS= read -rsn1 key < /dev/tty
     
     case "$key" in
-        $'\x1b') # Escape sequence for arrow keys
+        $'\x1b') 
             read -rsn2 -t 0.1 seq < /dev/tty
             case "$seq" in
-                "[A") # Up arrow
+                "[A")
                     ((cursor--))
                     [ $cursor -lt 0 ] && cursor=$((${#options[@]} - 1))
                     ;;
-                "[B") # Down arrow
+                "[B")
                     ((cursor++))
                     [ $cursor -ge ${#options[@]} ] && cursor=0
                     ;;
             esac
             ;;
-        " ") # Spacebar to toggle
+        " ")
             selected[$cursor]=$((1 - selected[$cursor]))
             ;;
-        "") # Enter key to confirm
+        "")
             break
             ;;
     esac
@@ -86,8 +83,22 @@ while true; do
     print_menu
 done
 
-tput cnorm # Restore terminal cursor
+tput cnorm 
 
+# --- Zero Selection Check ---
+total_selected=0
+for val in "${selected[@]}"; do
+    total_selected=$((total_selected + val))
+done
+
+if [ "$total_selected" -eq 0 ]; then
+    echo -e "\n${YELLOW}${BOLD}Sensei, you unchecked everything...${NC}"
+    echo -e "${CYAN}Arona is a bit confused, but she respects your minimalism.${NC}"
+    echo -e "${BLUE}No files were downloaded. Have a great day!${NC}\n"
+    exit 0
+fi
+
+# --- Download & Extract ---
 echo -e "\n${BLUE}Downloading assets from GitHub...${NC}"
 TMP_DIR=$(mktemp -d)
 cd "$TMP_DIR" || exit
