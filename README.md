@@ -72,9 +72,16 @@ curl -sSL https://raw.githubusercontent.com/Sadowski-Krystian/Blue-Archive-Theme
 
 ### 🐧 Manual Plymouth Theme Installation
 
+
+
+
 This repository includes two custom Plymouth boot animations:
 * **`bluearchive_steam_ver`** - Is using steam deck boot animation from points shop
 * **`bluearchive_arona`** - A lightweight, continuous looping animation with Arona.
+
+For screen resolutions higher than 1920x1080 (e.g., 1440p or 4K), you can enable automatic image scaling by setting `autoscale_enabled = 1` inside the `.script` file.
+
+> **Note:** Dynamically scaling animation frames in real-time during boot may slightly increase your system boot time on slower CPUs.
 
 Choose your preferred version and follow these steps in your terminal:
 

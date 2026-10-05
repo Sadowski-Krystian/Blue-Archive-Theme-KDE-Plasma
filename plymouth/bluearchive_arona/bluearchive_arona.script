@@ -1,8 +1,13 @@
 // ==========================================
-// 1. GLOBAL SETTINGS & EARLY OVERRIDE
+// 1. GLOBAL SETTINGS
 // ==========================================
 Window.SetBackgroundTopColor (0.0, 0.0, 0.0);
 Window.SetBackgroundBottomColor (0.0, 0.0, 0.0);
+
+autoscale_enabled = 0;
+
+screen_w = Window.GetWidth();
+screen_h = Window.GetHeight();
 
 is_password_requested = 0;
 
@@ -21,19 +26,80 @@ if (Plymouth.GetMode() == "updates" || Plymouth.GetMode() == "system-upgrade") {
 }
 
 // ==========================================
-// 2. LOADING FRAMES (1 do 75, w pętli)
+// 2. LOADING FRAMES + SCALING BEFORE FIRST DISPLAY
 // ==========================================
 for (i = 1; i <= total_frame_count; i++) {
-    image[i] = Image("intro/luks_" + i + ".png");
+    raw_image[i] = Image("intro/luks_" + i + ".png");
 }
 
 sprite = Sprite();
+sprite.SetZ(0);
+
+built_w = 0;
+built_h = 0;
+shown_progress = 0;
+offset_x = 0;
+offset_y = 0;
+
+fun build_frames () {
+    sw = Window.GetWidth();
+    sh = Window.GetHeight();
+
+    if (sw <= 0 || sh <= 0) {
+        return;
+    }
+
+    for (i = 1; i <= global.total_frame_count; i++) {
+        src = global.raw_image[i];
+        iw = src.GetWidth();
+        ih = src.GetHeight();
+
+        if (global.autoscale_enabled == 1 && (sw > iw || sh > ih)) {
+            scale = sw / iw;
+            if ((sh / ih) > scale) {
+                scale = sh / ih;
+            }
+
+            new_w = Math.Int(iw * scale + 0.999);
+            new_h = Math.Int(ih * scale + 0.999);
+            if (new_w < sw) { new_w = sw; }
+            if (new_h < sh) { new_h = sh; }
+
+            global.image[i] = src.Scale(new_w, new_h);
+        } else {
+            new_w = iw;
+            new_h = ih;
+            global.image[i] = src;
+        }
+
+        global.offset_x = Math.Int((sw - new_w) / 2);
+        global.offset_y = Math.Int((sh - new_h) / 2);
+    }
+
+    global.built_w = sw;
+    global.built_h = sh;
+    global.shown_progress = 0;
+}
+
+fun update_background () {
+    if (Window.GetWidth() != global.built_w || Window.GetHeight() != global.built_h) {
+        build_frames();
+    }
+    if (global.shown_progress != global.progress) {
+        global.sprite.SetImage(global.image[global.progress]);
+        global.sprite.SetX(global.offset_x);
+        global.sprite.SetY(global.offset_y);
+        global.shown_progress = global.progress;
+    }
+}
+
+build_frames();
 
 // ==========================================
 // 3. UI - BATTERY AND CELLS
 // ==========================================
-anchor_x = Window.GetWidth() * 0.75;
-anchor_y = Window.GetHeight() * 0.77;
+anchor_x = screen_w * 0.75;
+anchor_y = screen_h * 0.77;
 
 battery_bg_image = Image("battery/battery_background.png");
 battery_bg_sprite = Sprite();
@@ -46,28 +112,43 @@ battery_bg_sprite.SetOpacity(0.0);
 for (i = 1; i <= 32; i++) {
     cell_image[i] = Image("battery/battery_ogniwo" + i + ".png");
     cell_sprite[i] = Sprite();
+    cell_sprite[i].SetImage(cell_image[i]);
     cell_sprite[i].SetZ(95);
     cell_sprite[i].SetOpacity(0.0);
 }
+
+prompt_password_image = Image("prompts/prompt_password.png");
+prompt_update_image = Image("prompts/prompt_update.png");
 
 prompt_sprite = Sprite();
 bullet_sprite = Sprite();
 prompt_offset_y = 60;
 
+fun update_layout () {
+    global.screen_w = Window.GetWidth();
+    global.screen_h = Window.GetHeight();
+    global.anchor_x = global.screen_w * 0.75;
+    global.anchor_y = global.screen_h * 0.77;
+
+    battery_bg_sprite.SetX(global.anchor_x - (battery_bg_image.GetWidth() / 2));
+    battery_bg_sprite.SetY(global.anchor_y);
+}
+
 // ==========================================
 // EVENT 1: LUKS
 // ==========================================
 fun display_password_callback (prompt, bullets) {
-    is_password_requested = 1;
+    global.is_password_requested = 1;
+
+    update_layout();
 
     battery_bg_sprite.SetOpacity(1.0);
     prompt_sprite.SetOpacity(1.0);
     bullet_sprite.SetOpacity(1.0);
 
-    global.prompt_image = Image("prompts/prompt_password.png");
-    prompt_sprite.SetImage(global.prompt_image);
-    prompt_sprite.SetX(anchor_x - (global.prompt_image.GetWidth() / 2));
-    prompt_sprite.SetY(anchor_y - prompt_offset_y);
+    prompt_sprite.SetImage(global.prompt_password_image);
+    prompt_sprite.SetX(global.anchor_x - (global.prompt_password_image.GetWidth() / 2));
+    prompt_sprite.SetY(global.anchor_y - global.prompt_offset_y);
     prompt_sprite.SetZ(100);
 
     char_count = bullets * 1;
@@ -82,8 +163,6 @@ fun display_password_callback (prompt, bullets) {
     start_cell_y = battery_bg_sprite.GetY() + padding_y;
 
     for (i = 1; i <= 32; i++) {
-        cell_sprite[i].SetImage(cell_image[i]);
-
         if (i <= render_cells) {
             cell_sprite[i].SetOpacity(1.0);
             cell_sprite[i].SetX(current_cell_x);
@@ -107,6 +186,7 @@ Plymouth.SetDisplayPasswordFunction(display_password_callback);
 // EVENT 2: DefaultStart
 // ==========================================
 fun display_normal_callback () {
+    global.is_password_requested = 0;
     prompt_sprite.SetOpacity(0.0);
     battery_bg_sprite.SetOpacity(0.0);
     bullet_sprite.SetOpacity(0.0);
@@ -121,7 +201,7 @@ Plymouth.SetDisplayNormalFunction(display_normal_callback);
 // ==========================================
 fun update_status_callback (status) {
     if (Plymouth.GetMode() == "updates" || Plymouth.GetMode() == "system-upgrade") {
-        is_updating = 1;
+        global.is_updating = 1;
     }
 }
 Plymouth.SetUpdateStatusFunction(update_status_callback);
@@ -136,37 +216,40 @@ Plymouth.SetBootProgressFunction(boot_progress_callback);
 tick_counter = 0;
 
 fun refresh_callback () {
-    tick_counter++;
+    global.tick_counter++;
 
-    sprite.SetX(Window.GetWidth() / 2 - image[progress].GetWidth() / 2);
-    sprite.SetY(Window.GetHeight() / 2 - image[progress].GetHeight() / 2);
-    sprite.SetImage(image[progress]);
+    # Recompute UI layout if the resolution changed during boot
+    if (Window.GetWidth() != global.screen_w || Window.GetHeight() != global.screen_h) {
+        update_layout();
+    }
 
-    if (is_updating == 1) {
+    # Background: rebuilds only on resolution change, swaps image only on frame change
+    update_background();
+
+    if (global.is_updating == 1) {
         battery_bg_sprite.SetOpacity(1.0);
         prompt_sprite.SetOpacity(1.0);
         bullet_sprite.SetOpacity(0.0);
 
-        global.prompt_image = Image("prompts/prompt_update.png");
-        prompt_sprite.SetImage(global.prompt_image);
-        prompt_sprite.SetX(anchor_x - (global.prompt_image.GetWidth() / 2));
-        prompt_sprite.SetY(anchor_y - prompt_offset_y);
+        prompt_sprite.SetImage(global.prompt_update_image);
+        prompt_sprite.SetX(global.anchor_x - (global.prompt_update_image.GetWidth() / 2));
+        prompt_sprite.SetY(global.anchor_y - global.prompt_offset_y);
         prompt_sprite.SetZ(100);
 
-        battery_bg_sprite.SetX(anchor_x - (battery_bg_image.GetWidth() / 2));
-        battery_bg_sprite.SetY(anchor_y);
+        battery_bg_sprite.SetX(global.anchor_x - (battery_bg_image.GetWidth() / 2));
+        battery_bg_sprite.SetY(global.anchor_y);
 
-        scanner_tick++;
-        if (scanner_tick >= 2) {
-            scanner_tick = 0;
-            scanner_pos = scanner_pos + scanner_dir;
+        global.scanner_tick++;
+        if (global.scanner_tick >= 2) {
+            global.scanner_tick = 0;
+            global.scanner_pos = global.scanner_pos + global.scanner_dir;
 
-            if (scanner_pos > (32 - scanner_width + 1)) {
-                scanner_dir = -1;
-                scanner_pos = 32 - scanner_width;
-            } else if (scanner_pos < 1) {
-                scanner_dir = 1;
-                scanner_pos = 2;
+            if (global.scanner_pos > (32 - global.scanner_width + 1)) {
+                global.scanner_dir = -1;
+                global.scanner_pos = 32 - global.scanner_width;
+            } else if (global.scanner_pos < 1) {
+                global.scanner_dir = 1;
+                global.scanner_pos = 2;
             }
         }
 
@@ -176,9 +259,7 @@ fun refresh_callback () {
         start_cell_y = battery_bg_sprite.GetY() + padding_y;
 
         for (i = 1; i <= 32; i++) {
-            cell_sprite[i].SetImage(cell_image[i]);
-
-            if (i >= scanner_pos && i < (scanner_pos + scanner_width)) {
+            if (i >= global.scanner_pos && i < (global.scanner_pos + global.scanner_width)) {
                 cell_sprite[i].SetOpacity(1.0);
             } else {
                 cell_sprite[i].SetOpacity(0.0);
@@ -190,11 +271,11 @@ fun refresh_callback () {
         }
     }
 
-    if (tick_counter >= 4) {
-        tick_counter = 0;
-        progress++;
-        if (progress > total_frame_count) {
-            progress = 1;
+    if (global.tick_counter >= 3) {
+        global.tick_counter = 0;
+        global.progress++;
+        if (global.progress > global.total_frame_count) {
+            global.progress = 1;
         }
     }
 }
